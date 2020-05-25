@@ -17,7 +17,7 @@ yum install  binutils compat-libstdc++-33  compat-libstdc++-33.i686 gcc  gcc-c++
 ### 1.3.安装无法自动更新的包
 
 1. 将 'centos7安装Oracle11G需要的依赖包.zip'内的文件上传至CentOS 7 上
-2. 在上传的文件夹中执行 `rpm -ivh --force *.rpm`
+2. 在上传的文件夹中执行 `rpm -ivh --force --nodeps *.rpm`
 
 ## 2.修改系统参数
 
@@ -32,7 +32,7 @@ yum install  binutils compat-libstdc++-33  compat-libstdc++-33.i686 gcc  gcc-c++
 
 ### 2.2 修改系统内核参数
 
-​	1.使用命令`vim /etc/sysctl.conf/` 
+​	1.使用命令`vim /etc/sysctl.conf` 
 
  2. 添加以下参数
  	```
@@ -106,8 +106,8 @@ passwd oracle
 ### 3.2 创建目录
 
 ```
-mkdir -p /usr/oracle/product/11.2.0.4/db_1
-chown -R oracle:oracle /usr/oracle/
+mkdir -p /usr/oracle/product/11.2.0.4/dbhome_1
+chown -R oracledb:oracledb /usr/oracle/
 chmod -R 775 /usr/oracle/
 ```
 
