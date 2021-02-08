@@ -37,7 +37,7 @@
 
 
 
-[^1]: POSIX 可移植操作系统接口(Portable Operation Syste Interface,正式名称:IEEE1003) 是IEEE为要在各种UNIX操作系统上运行软件，而定义API的一系列互相管理的标准的总称，其正式称呼为IEEE Std 1003，而国际标准名称为[ISO](https://baike.baidu.com/item/ISO)/[IEC](https://baike.baidu.com/item/IEC) 9945。此标准源于一个大约开始于1985年的项目。POSIX这个名称是由[理查德·斯托曼](https://baike.baidu.com/item/理查德·斯托曼)（RMS）应IEEE的要求而提议的一个易于记忆的名称。它基本上是Portable Operating System Interface（可移植操作系统接口）的缩写，而**X**则表明其对Unix API的传承。
+[^1]: POSIX 可移植操作系统接口(Portable Operation System Interface,正式名称:IEEE1003) 是IEEE为要在各种UNIX操作系统上运行软件，而定义API的一系列互相管理的标准的总称，其正式称呼为IEEE Std 1003，而国际标准名称为[ISO](https://baike.baidu.com/item/ISO)/[IEC](https://baike.baidu.com/item/IEC) 9945。此标准源于一个大约开始于1985年的项目。POSIX这个名称是由[理查德·斯托曼](https://baike.baidu.com/item/理查德·斯托曼)（RMS）应IEEE的要求而提议的一个易于记忆的名称。它基本上是Portable Operating System Interface（可移植操作系统接口）的缩写，而**X**则表明其对Unix API的传承。
 [^2]: 类Unix系统(Unix-like)是指继承Unix的设计风格演变出来的系统（比如GNU/[Linux](https://baike.baidu.com/item/Linux)、[FreeBSD](https://baike.baidu.com/item/FreeBSD)、[OpenBSD](https://baike.baidu.com/item/OpenBSD)、SUN公司的[Solaris](https://baike.baidu.com/item/Solaris/3517)、Minix、QNX等），这些操作系统虽然有的是自由软件，有的是[商业软件](https://baike.baidu.com/item/商业软件/3528488)，但都相当程度地继承了原始UNIX的特性，有许多相似处，并且都在一定程度上遵守[POSIX](https://baike.baidu.com/item/POSIX)规范，但是它们却并不含有UNIX的源代码。UNIX的源代码为SCO公司所有，属于商业软件，UNIX的商标权和UNIX标准认定属于OPENGROUP所有。由于UNIX标准认定价格昂贵，所以唯一获得UNIX标准认定的为苹果的MACOS系统。
 
 ​	
