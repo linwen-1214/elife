@@ -4,4 +4,9 @@
  * @description
  */
 public class Main {
+    public static void main(String[] args) {
+
+        String strLen = "ss";
+        System.out.println(strLen.trim());
+    }
 }
