@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.AccountDao">
+    <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.Account">
+        <id column="SYS_ACCOUNT_ID" jdbcType="VARCHAR" property="id"/>
+        <result column="SYS_ACCOUNT_ORG_ID" jdbcType="VARCHAR" property="orgId"/>
+        <result column="SYS_ACCOUNT_LOGIN_ACCOUNT" jdbcType="VARCHAR" property="loginAccount"/>
+        <result column="SYS_ACCOUNT_NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="SYS_ACCOUNT_AVATAR" jdbcType="VARCHAR" property="avatar"/>
+        <result column="SYS_ACCOUNT_EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="SYS_ACCOUNT_PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="SYS_ACCOUNT_PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="SYS_ACCOUNT_STATUS" jdbcType="DECIMAL" property="status"/>
+        <result column="SYS_ACCOUNT_CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="SYS_ACCOUNT_CREATE_ACCOUNT_ID" jdbcType="VARCHAR" property="createAccountId"/>
+        <result column="SYS_ACCOUNT_CREATE_ACCOUNT_NAME" jdbcType="VARCHAR" property="createAccountName"/>
+    </resultMap>
+    <sql id="BaseColumnSql">
+        SYS_ACCOUNT.ID as SYS_ACCOUNT_ID, SYS_ACCOUNT.ORG_ID as SYS_ACCOUNT_ORG_ID, SYS_ACCOUNT.LOGIN_ACCOUNT as SYS_ACCOUNT_LOGIN_ACCOUNT,
+        SYS_ACCOUNT.NAME as SYS_ACCOUNT_NAME, SYS_ACCOUNT.AVATAR as SYS_ACCOUNT_AVATAR,
+        SYS_ACCOUNT.EMAIL as SYS_ACCOUNT_EMAIL, SYS_ACCOUNT.PASSWORD as SYS_ACCOUNT_PASSWORD,
+        SYS_ACCOUNT.PHONE as SYS_ACCOUNT_PHONE, SYS_ACCOUNT.STATUS as SYS_ACCOUNT_STATUS,
+        SYS_ACCOUNT.CREATE_DATE as SYS_ACCOUNT_CREATE_DATE, SYS_ACCOUNT.CREATE_ACCOUNT_ID as SYS_ACCOUNT_CREATE_ACCOUNT_ID,
+        SYS_ACCOUNT.CREATE_ACCOUNT_NAME as SYS_ACCOUNT_CREATE_ACCOUNT_NAME
+    </sql>
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnSql"/>
+        from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="existsById" parameterType="java.lang.String" resultType="boolean">
+        select count(*)
+        from SYS_ACCOUNT SYS_ACCOUNT
+        where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from SYS_ACCOUNT
+        where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.Account"
+            useGeneratedKeys="false">
+        insert into SYS_ACCOUNT (ORG_ID, LOGIN_ACCOUNT, NAME, AVATAR, EMAIL, PASSWORD, PHONE, STATUS, CREATE_DATE,
+                                 CREATE_ACCOUNT_ID, CREATE_ACCOUNT_NAME)
+        values (#{orgId,jdbcType=VARCHAR}, #{loginAccount,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP},
+                #{createAccountId,jdbcType=VARCHAR}, #{createAccountName,jdbcType=VARCHAR})
+    </insert>
+    <update id="update" parameterType="cn.ylw.evaluation.entity.sys.Account">
+        update SYS_ACCOUNT
+        set ORG_ID              = #{orgId,jdbcType=VARCHAR},
+            LOGIN_ACCOUNT       = #{loginAccount,jdbcType=VARCHAR},
+            NAME                = #{name,jdbcType=VARCHAR},
+            AVATAR              = #{avatar,jdbcType=VARCHAR},
+            EMAIL               = #{email,jdbcType=VARCHAR},
+            PASSWORD            = #{password,jdbcType=VARCHAR},
+            PHONE               = #{phone,jdbcType=VARCHAR},
+            STATUS              = #{status,jdbcType=DECIMAL},
+            CREATE_DATE         = #{createDate,jdbcType=TIMESTAMP},
+            CREATE_ACCOUNT_ID   = #{createAccountId,jdbcType=VARCHAR},
+            CREATE_ACCOUNT_NAME = #{createAccountName,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

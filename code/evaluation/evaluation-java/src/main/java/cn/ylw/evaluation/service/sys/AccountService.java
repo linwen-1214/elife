@@ -6,5 +6,5 @@ package cn.ylw.evaluation.service.sys;
  * @date: 2021年04月01日 19时25分
  * @description:
  */
-public interface UserService {
+public interface AccountService {
 }

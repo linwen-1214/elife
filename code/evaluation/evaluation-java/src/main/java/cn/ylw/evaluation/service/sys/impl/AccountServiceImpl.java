@@ -1,6 +1,6 @@
 package cn.ylw.evaluation.service.sys.impl;
 
-import cn.ylw.evaluation.service.sys.UserService;
+import cn.ylw.evaluation.service.sys.AccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class AccountServiceImpl implements AccountService {
 
 }

@@ -1,6 +1,6 @@
 package cn.ylw.evaluation.config.shiro;
 
-import cn.ylw.evaluation.entity.sys.User;
+import cn.ylw.evaluation.entity.sys.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,14 +27,14 @@ public class JwtUtils {
     /**
      * 生成jwt token
      */
-    public String createToken(User user) {
+    public String createToken(Account account) {
         Date nowDate = new Date();
         //过期时间
         Date expireDate = new Date(nowDate.getTime() + expire * 1000);
         return Jwts.builder()
                 .setHeaderParam("type", "JWT")
-                .setId(user.getId())
-                .setSubject(user.getName())
+                .setId(account.getId())
+                .setSubject(account.getLoginAccount())
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, encryptKey)
@@ -47,7 +47,7 @@ public class JwtUtils {
                     .setSigningKey(encryptKey)
                     .parseClaimsJws(token)
                     .getBody();
-        }catch (Exception e){
+        } catch (Exception e) {
             log.warn("validate is token error ", e);
             return null;
         }
@@ -55,7 +55,8 @@ public class JwtUtils {
 
     /**
      * token是否过期
-     * @return  true：过期
+     *
+     * @return true：过期
      */
     public boolean isTokenExpired(String token) {
         Claims claim = getClaimByToken(token);
