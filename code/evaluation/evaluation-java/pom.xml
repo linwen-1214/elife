@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -15,13 +16,24 @@
     <description>投票评价系统</description>
     <properties>
         <java.version>1.8</java.version>
-        <ojdbc8.version>19.3.0.0</ojdbc8.version>
-        <orai18n.version>12.1.0.2.0</orai18n.version>
-        <druid.version>1.2.5</druid.version>
-        <mybatis-plus.version>3.4.2</mybatis-plus.version>
-        <hutool.version>5.6.2</hutool.version>
-        <jwt.version>0.9.1</jwt.version>
+        <ylw.common.version>0.0.1</ylw.common.version>
+        <ylw.core.version>0.0.1</ylw.core.version>
+        <ylw.domain.version>0.0.1</ylw.domain.version>
+        <ylw.api.version>0.0.1</ylw.api.version>
+        <ylw.service.version>0.0.1</ylw.service.version>
     </properties>
+    <modules>
+        <!--数据库模块-->
+        <module>domain</module>
+        <!--公共模块-->
+        <module>common</module>
+        <!--核心模块-->
+        <module>core</module>
+        <!--数据接口Api模块-->
+        <module>api</module>
+        <!--服务处理模块-->
+        <module>service</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,57 +45,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--Log4j2日志记录-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>1.7.1</version>
-        </dependency>
-        <!--        <dependency>-->
-<!--            <groupId>org.crazycake</groupId>-->
-<!--            <artifactId>shiro-redis-spring-boot-starter</artifactId>-->
-<!--            <version>3.3.1</version>-->
-<!--        </dependency>-->
-        <!-- hutool工具类-->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
-        <!-- jwt -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jwt.version}</version>
-        </dependency>
-        <!--Mybatis plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.ojdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>${ojdbc8.version}</version>
-        </dependency>
-        <!--解决数据库中文乱码问题：不支持的字符集，不支持的字符集合-->
-        <dependency>
-            <groupId>cn.easyproject</groupId>
-            <artifactId>orai18n</artifactId>
-            <version>${orai18n.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <!--项目热加载-->
         <dependency>
@@ -97,22 +62,45 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--Log4j2日志记录-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.ylw</groupId>
+                <artifactId>common</artifactId>
+                <version>${ylw.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ylw</groupId>
+                <artifactId>core</artifactId>
+                <version>${ylw.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ylw</groupId>
+                <artifactId>domain</artifactId>
+                <version>${ylw.domain.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ylw</groupId>
+                <artifactId>api</artifactId>
+                <version>${ylw.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ylw</groupId>
+                <artifactId>service</artifactId>
+                <version>${ylw.service.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
