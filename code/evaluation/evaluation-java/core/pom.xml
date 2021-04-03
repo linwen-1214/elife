@@ -10,11 +10,17 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>core</artifactId>
     <properties>
+        <shiro-spring-boot.version>1.7.1</shiro-spring-boot.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-starter</artifactId>
+            <version>${shiro-spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.ylw</groupId>

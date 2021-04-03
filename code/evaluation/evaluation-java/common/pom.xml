@@ -13,7 +13,6 @@
 
     <properties>
         <hutool.version>5.6.2</hutool.version>
-        <shiro-spring-boot.version>1.7.1</shiro-spring-boot.version>
         <jwt.version>0.9.1</jwt.version>
     </properties>
     <dependencies>
@@ -23,11 +22,7 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>${shiro-spring-boot.version}</version>
-        </dependency>
+
         <!-- jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

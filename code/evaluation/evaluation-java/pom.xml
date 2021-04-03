@@ -21,18 +21,19 @@
         <ylw.domain.version>0.0.1</ylw.domain.version>
         <ylw.api.version>0.0.1</ylw.api.version>
         <ylw.service.version>0.0.1</ylw.service.version>
+        <start-class>cn.ylw.EvaluationApplication</start-class>
     </properties>
     <modules>
-        <!--数据库模块-->
-        <module>domain</module>
         <!--公共模块-->
         <module>common</module>
+        <!--数据库模块-->
+        <module>domain</module>
         <!--核心模块-->
         <module>core</module>
-        <!--数据接口Api模块-->
-        <module>api</module>
         <!--服务处理模块-->
         <module>service</module>
+        <!--数据接口Api模块-->
+        <module>api</module>
     </modules>
     <dependencies>
         <dependency>

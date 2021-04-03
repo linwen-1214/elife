@@ -1,4 +1,4 @@
-package cn.ylw.common.util;
+package cn.ylw.evaluation.core.util;
 
 import cn.ylw.common.constant.ShiroConstants;
 import org.apache.shiro.crypto.hash.SimpleHash;
