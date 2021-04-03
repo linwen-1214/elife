@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.RoleDao">
+  <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.Role">
+    <id column="SYS_ROLE_ID" jdbcType="VARCHAR" property="id" />
+    <result column="SYS_ROLE_CODE" jdbcType="VARCHAR" property="code" />
+    <result column="SYS_ROLE_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SYS_ROLE_PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="SYS_ROLE_STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="SYS_ROLE_DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="SYS_ROLE_CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="SYS_ROLE_CREATE_ACCOUNT_ID" jdbcType="VARCHAR" property="createAccountId" />
+  </resultMap>
+
+  <sql id="BaseColumnSql">
+    SYS_ROLE.ID as SYS_ROLE_ID, SYS_ROLE.CODE as SYS_ROLE_CODE, SYS_ROLE.NAME as SYS_ROLE_NAME,
+    SYS_ROLE.PARENT_ID as SYS_ROLE_PARENT_ID, SYS_ROLE.STATUS as SYS_ROLE_STATUS,
+    SYS_ROLE.DESCRIPTION as SYS_ROLE_DESCRIPTION, SYS_ROLE.CREATE_DATE as SYS_ROLE_CREATE_DATE, 
+    SYS_ROLE.CREATE_ACCOUNT_ID as SYS_ROLE_CREATE_ACCOUNT_ID
+  </sql>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="BaseColumnSql" />
+    from SYS_ROLE SYS_ROLE
+    where SYS_ROLE.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="existsById" parameterType="java.lang.String" resultType="boolean">
+    select count(*)
+    from SYS_ROLE SYS_ROLE
+    where SYS_ROLE.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from SYS_ROLE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.Role" useGeneratedKeys="true">
+    insert into SYS_ROLE (CODE, NAME, PARENT_ID,
+      STATUS, DESCRIPTION, CREATE_DATE,
+      CREATE_ACCOUNT_ID)
+    values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{description,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createAccountId,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="update" parameterType="cn.ylw.evaluation.entity.sys.Role">
+    update SYS_ROLE
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_ACCOUNT_ID = #{createAccountId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

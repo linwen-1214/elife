@@ -15,6 +15,7 @@
         <result column="SYS_ACCOUNT_CREATE_ACCOUNT_ID" jdbcType="VARCHAR" property="createAccountId"/>
         <result column="SYS_ACCOUNT_CREATE_ACCOUNT_NAME" jdbcType="VARCHAR" property="createAccountName"/>
     </resultMap>
+
     <sql id="BaseColumnSql">
         SYS_ACCOUNT.ID as SYS_ACCOUNT_ID, SYS_ACCOUNT.ORG_ID as SYS_ACCOUNT_ORG_ID, SYS_ACCOUNT.LOGIN_ACCOUNT as SYS_ACCOUNT_LOGIN_ACCOUNT,
         SYS_ACCOUNT.NAME as SYS_ACCOUNT_NAME, SYS_ACCOUNT.AVATAR as SYS_ACCOUNT_AVATAR,
@@ -23,21 +24,25 @@
         SYS_ACCOUNT.CREATE_DATE as SYS_ACCOUNT_CREATE_DATE, SYS_ACCOUNT.CREATE_ACCOUNT_ID as SYS_ACCOUNT_CREATE_ACCOUNT_ID,
         SYS_ACCOUNT.CREATE_ACCOUNT_NAME as SYS_ACCOUNT_CREATE_ACCOUNT_NAME
     </sql>
+
     <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="BaseColumnSql"/>
         from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
     </select>
+
     <select id="existsById" parameterType="java.lang.String" resultType="boolean">
         select count(*)
         from SYS_ACCOUNT SYS_ACCOUNT
         where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
     </select>
+
     <delete id="deleteById" parameterType="java.lang.String">
         delete
         from SYS_ACCOUNT
         where ID = #{id,jdbcType=VARCHAR}
     </delete>
+
     <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.Account"
             useGeneratedKeys="false">
         insert into SYS_ACCOUNT (ORG_ID, LOGIN_ACCOUNT, NAME, AVATAR, EMAIL, PASSWORD, PHONE, STATUS, CREATE_DATE,
@@ -47,6 +52,7 @@
                 #{phone,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP},
                 #{createAccountId,jdbcType=VARCHAR}, #{createAccountName,jdbcType=VARCHAR})
     </insert>
+
     <update id="update" parameterType="cn.ylw.evaluation.entity.sys.Account">
         update SYS_ACCOUNT
         set ORG_ID              = #{orgId,jdbcType=VARCHAR},

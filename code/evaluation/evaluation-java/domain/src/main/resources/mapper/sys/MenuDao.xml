@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.MenuDao">
+  <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.Menu">
+    <id column="SYS_MENU_ID" jdbcType="VARCHAR" property="id" />
+    <result column="SYS_MENU_PATH" jdbcType="VARCHAR" property="path" />
+    <result column="SYS_MENU_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SYS_MENU_ICON" jdbcType="VARCHAR" property="icon" />
+    <result column="SYS_MENU_STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="SYS_MENU_PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="SYS_MENU_TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="SYS_MENU_ORDER_INDEX" jdbcType="DECIMAL" property="orderIndex" />
+    <result column="SYS_MENU_BREAD_CRUMB" jdbcType="VARCHAR" property="breadCrumb" />
+    <result column="SYS_MENU_AUTHORITY" jdbcType="VARCHAR" property="authority" />
+  </resultMap>
+
+  <sql id="BaseColumnSql">
+    SYS_MENU.ID as SYS_MENU_ID, SYS_MENU.PATH as SYS_MENU_PATH, SYS_MENU.NAME as "SYS_MENU_NAME",
+    SYS_MENU.ICON as SYS_MENU_ICON, SYS_MENU.STATUS as SYS_MENU_STATUS, SYS_MENU.PARENT_ID as SYS_MENU_PARENT_ID,
+    SYS_MENU.TYPE as "SYS_MENU_TYPE", SYS_MENU.ORDER_INDEX as SYS_MENU_ORDER_INDEX,
+    SYS_MENU.BREAD_CRUMB as SYS_MENU_BREAD_CRUMB, SYS_MENU.AUTHORITY as SYS_MENU_AUTHORITY
+  </sql>
+
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="BaseColumnSql" />
+    from SYS_MENU SYS_MENU
+    where SYS_MENU.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="existsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select count(*)
+    from SYS_MENU SYS_MENU
+    where SYS_MENU.ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from SYS_MENU
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.Menu" useGeneratedKeys="true">
+    insert into SYS_MENU (PATH, NAME, ICON,       STATUS, PARENT_ID, TYPE,       ORDER_INDEX, BREAD_CRUMB, AUTHORITY)
+    values (#{path,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{parentId,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{orderIndex,jdbcType=DECIMAL}, #{breadCrumb,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="update" parameterType="cn.ylw.evaluation.entity.sys.Menu">
+    update SYS_MENU
+    set PATH = #{path,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ORDER_INDEX = #{orderIndex,jdbcType=DECIMAL},
+      BREAD_CRUMB = #{breadCrumb,jdbcType=VARCHAR},
+      AUTHORITY = #{authority,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

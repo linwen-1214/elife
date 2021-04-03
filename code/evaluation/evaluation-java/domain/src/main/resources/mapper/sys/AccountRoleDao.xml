@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.AccountRoleDao">
+    <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.AccountRole">
+        <id column="SYS_ACCOUNT_ROLE_ID" jdbcType="VARCHAR" property="id"/>
+        <result column="SYS_ACCOUNT_ROLE_ACCOUNT_ID" jdbcType="VARCHAR" property="accountId"/>
+        <result column="SYS_ACCOUNT_ROLE_ROLE_ID" jdbcType="VARCHAR" property="roleId"/>
+    </resultMap>
+    <sql id="BaseColumnSql">
+        SYS_ACCOUNT_ROLE.ID as SYS_ACCOUNT_ROLE_ID, SYS_ACCOUNT_ROLE.ACCOUNT_ID as SYS_ACCOUNT_ROLE_ACCOUNT_ID,
+        SYS_ACCOUNT_ROLE.ROLE_ID as SYS_ACCOUNT_ROLE_ROLE_ID
+    </sql>
+
+    <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnSql"/>
+        from SYS_ACCOUNT_ROLE SYS_ACCOUNT_ROLE
+        where SYS_ACCOUNT_ROLE.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="existsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select count(*)
+        from SYS_ACCOUNT_ROLE SYS_ACCOUNT_ROLE
+        where SYS_ACCOUNT_ROLE.ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from SYS_ACCOUNT_ROLE
+        where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.AccountRole"
+            useGeneratedKeys="true">
+        insert into SYS_ACCOUNT_ROLE (ACCOUNT_ID, ROLE_ID)
+        values (#{accountId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR})
+    </insert>
+    <update id="update" parameterType="cn.ylw.evaluation.entity.sys.AccountRole">
+        update SYS_ACCOUNT_ROLE
+        set ACCOUNT_ID = #{accountId,jdbcType=VARCHAR},
+            ROLE_ID    = #{roleId,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

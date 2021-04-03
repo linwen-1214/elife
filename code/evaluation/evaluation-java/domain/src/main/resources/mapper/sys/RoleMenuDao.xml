@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.RoleMenuDao">
+  <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.RoleMenu">
+    <id column="SYS_ROLE_MENU_ID" jdbcType="VARCHAR" property="id" />
+    <result column="SYS_ROLE_MENU_ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="SYS_ROLE_MENU_MENU_ID" jdbcType="VARCHAR" property="menuId" />
+  </resultMap>
+  <sql id="BaseColumnSql">
+    SYS_ROLE_MENU.ID as SYS_ROLE_MENU_ID, SYS_ROLE_MENU.ROLE_ID as SYS_ROLE_MENU_ROLE_ID, 
+    SYS_ROLE_MENU.MENU_ID as SYS_ROLE_MENU_MENU_ID
+  </sql>
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="BaseColumnSql" />
+    from SYS_ROLE_MENU SYS_ROLE_MENU
+    where SYS_ROLE_MENU.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="existsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select count(*)
+    from SYS_ROLE_MENU SYS_ROLE_MENU
+    where SYS_ROLE_MENU.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from SYS_ROLE_MENU
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.RoleMenu" useGeneratedKeys="true">
+    insert into SYS_ROLE_MENU (ROLE_ID, MENU_ID)
+    values (#{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="update" parameterType="cn.ylw.evaluation.entity.sys.RoleMenu">
+    update SYS_ROLE_MENU
+    set ROLE_ID = #{roleId,jdbcType=VARCHAR},
+      MENU_ID = #{menuId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

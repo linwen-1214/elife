@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ylw.evaluation.dao.sys.OrganizationDao">
+  <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.Organization">
+    <id column="SYS_ORGANIZATION_ID" jdbcType="VARCHAR" property="id" />
+    <result column="SYS_ORGANIZATION_CODE" jdbcType="VARCHAR" property="code" />
+    <result column="SYS_ORGANIZATION_ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="SYS_ORGANIZATION_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SYS_ORGANIZATION_PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="SYS_ORGANIZATION_AREA" jdbcType="VARCHAR" property="area" />
+    <result column="SYS_ORGANIZATION_CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="SYS_ORGANIZATION_CONTACT_PHONE" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="SYS_ORGANIZATION_CONTACT_EMAIL" jdbcType="VARCHAR" property="contactEmail" />
+  </resultMap>
+  <sql id="BaseColumnSql">
+    SYS_ORGANIZATION.ID as SYS_ORGANIZATION_ID, SYS_ORGANIZATION.CODE as SYS_ORGANIZATION_CODE, 
+    SYS_ORGANIZATION.ORG_CODE as SYS_ORGANIZATION_ORG_CODE, SYS_ORGANIZATION.NAME as "SYS_ORGANIZATION_NAME",
+    SYS_ORGANIZATION.PARENT_ID as SYS_ORGANIZATION_PARENT_ID, SYS_ORGANIZATION.AREA as SYS_ORGANIZATION_AREA, 
+    SYS_ORGANIZATION.CONTACT_PERSON as SYS_ORGANIZATION_CONTACT_PERSON, SYS_ORGANIZATION.CONTACT_PHONE as SYS_ORGANIZATION_CONTACT_PHONE, 
+    SYS_ORGANIZATION.CONTACT_EMAIL as SYS_ORGANIZATION_CONTACT_EMAIL
+  </sql>
+  <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="BaseColumnSql" />
+    from SYS_ORGANIZATION SYS_ORGANIZATION
+    where SYS_ORGANIZATION.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="existsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select count(*)
+    from SYS_ORGANIZATION SYS_ORGANIZATION
+    where SYS_ORGANIZATION.ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from SYS_ORGANIZATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="save" keyColumn="ID" keyProperty="id" parameterType="cn.ylw.evaluation.entity.sys.Organization" useGeneratedKeys="true">
+    insert into SYS_ORGANIZATION (CODE, ORG_CODE, NAME,
+      PARENT_ID, AREA, CONTACT_PERSON, 
+      CONTACT_PHONE, CONTACT_EMAIL)
+    values (#{code,jdbcType=VARCHAR}, #{orgCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="update" parameterType="cn.ylw.evaluation.entity.sys.Organization">
+    update SYS_ORGANIZATION
+    set CODE = #{code,jdbcType=VARCHAR},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

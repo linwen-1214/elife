@@ -10,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class Account implements Serializable {
+    private static final long serialVersionUID = 2649215481022188489L;
     /**
      * 账号Id
      */
@@ -69,6 +70,4 @@ public class Account implements Serializable {
      * 账号创建人名称
      */
     private String createAccountName;
-
-    private static final long serialVersionUID = 1L;
 }
