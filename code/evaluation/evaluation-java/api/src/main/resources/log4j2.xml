@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--monitorInterval 间隔时间 检查配置文件是否更改-->
+<Configuration monitorInterval="60">
+    <Properties>
+        <Property name="log-path">E:/logs/web</Property>
+        <Property name="logger-level">WARN</Property>
+        <Property name="root-level">Debug</Property>
+        <Property name="log-name">newWeb</Property>
+        <Property name="log-file-size">50MB</Property>
+        <Property name="loginName">%X{loginName}</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console-Appender" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>
+                    ${loginName} %t - %d %p %class %m%n
+                </pattern>>
+            </PatternLayout>
+        </Console>
+        <!--记录错误日志 一天一次  每个文件最大50M-->
+        <RollingFile name="RollingFile" fileName="${log-path}/${log-name}.log" append="true"
+                     filePattern="${log-path}/%d{yyyy}/%d{MM}/%d{dd}/${log-name}-%i.log">
+            <!-- 只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${loginName} %t %d{yyyy-MM-dd HH:mm:ss Z} %-5level %class %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="${log-file-size}"/>
+            </Policies>
+        </RollingFile>
+        <!--记录错误日志 一天一次  每个文件最大50M-->
+        <RollingFile name="RollingScriptFile" fileName="${log-path}/${log-name}_script.log" append="false"
+                     filePattern="${log-path}/%d{yyyy}/%d{MM}/%d{dd}/${log-name}_script-%i.log">
+            <!-- 只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${loginName} %t %d{yyyy-MM-dd HH:mm:ss Z} %-5level %class %L %M - %msg%xEx%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="${log-file-size}"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="${root-level}">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Root>
+        <logger name="com.btw.config.database.SqlScriptUtils" level="${root-level}" additivity="false">
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="RollingScriptFile"/>
+        </logger>
+        <Logger name="org.springframework.web" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.hibernate" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.hibernate.cfg" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.springframework.boot" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="net.sf.ehcache" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.apache.shiro" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <Logger name="org.thymeleaf" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+        <logger name="druid.sql" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="com.alibaba.druid.pool" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="org.apache.axis" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="org.apache.commons.beanutils" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="com.alibaba.excel" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="org.apache.http" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <logger name="io.netty" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </logger>
+        <Logger name="org.quartz" level="${logger-level}" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console-Appender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

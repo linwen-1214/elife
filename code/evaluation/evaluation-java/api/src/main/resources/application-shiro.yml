@@ -1,0 +1,6 @@
+shiro:
+  jwt:
+    # 加密密钥
+    encryptKey: 'f4e2e52034348f86b67cde581c0f9eb5'
+    # 过期时间 单位 秒
+    expire: 86400
