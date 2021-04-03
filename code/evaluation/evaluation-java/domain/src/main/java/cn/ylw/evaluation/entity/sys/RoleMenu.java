@@ -1,10 +1,25 @@
 package cn.ylw.evaluation.entity.sys;
 
+import java.io.Serializable;
+import lombok.Data;
+
 /**
- * 角色菜单信息
- * @author: ylw
- * @date: 2021年04月01日 16时14分
- * @description:
+ * SYS_ROLE_MENU
+ * @author 
  */
-public class RoleMenu {
+@Data
+public class RoleMenu implements Serializable {
+    private static final long serialVersionUID = 6567595534920084479L;
+    private String id;
+
+    /**
+     * 角色Id
+     */
+    private String roleId;
+
+    /**
+     * 菜单ID
+     */
+    private String menuId;
+
 }
