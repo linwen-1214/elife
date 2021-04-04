@@ -29,21 +29,19 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ShiroException.class)
     public ResponseResult handleShiro(ShiroException e) {
-        return ResponseResult.fail(ResponseStatus.UNAUTHORIZED, e.getMessage(), null);
+        log.error("Shiro Exception ", e);
+        return ResponseResult.fail(ResponseStatus.UNAUTHORIZED, ResponseStatus.UNAUTHORIZED.value(), e.getMessage(), null);
     }
 
-    @ExceptionHandler(UnauthenticatedException.class)
-    public ResponseResult handleShiroUnauthenticated(ShiroException e) {
-        return ResponseResult.fail(ResponseStatus.UNAUTHORIZED, "未登录授权,请先登录!", null);
+    @ExceptionHandler(OperationException.class)
+    public ResponseResult operation(OperationException e) {
+        log.error("OperationException Exception ", e);
+        return ResponseResult.fail(e.getStatus(), e.getCode(), e.getExMessage(), null);
     }
 
-    @ExceptionHandler(value = RuntimeException.class)
-    public ResponseResult handlerRuntime(RuntimeException e) throws IOException {
-        log.error("运行时异常:-------------->", e);
-        return ResponseResult.fail(ResponseStatus.SERVER_ERROR, e.getMessage());
-    }
     @ExceptionHandler(value = Exception.class)
-    public ResponseResult handler(Exception e) throws IOException {
-        return ResponseResult.fail(ResponseStatus.SERVER_ERROR, e.getMessage());
+    public ResponseResult handler(Exception e) {
+        log.error("Other Exception ", e);
+        return ResponseResult.fail(ResponseStatus.SERVER_ERROR, ResponseStatus.SERVER_ERROR.value(), e.getMessage());
     }
 }

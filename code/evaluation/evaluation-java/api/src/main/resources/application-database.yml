@@ -74,8 +74,3 @@ spring:
 #        dialect: org.hibernate.dialect.Oracle10gDialect
 #        enable_lazy_load_no_trans: false
 #    open-in-view: true
-mybatis:
-  mapper-locations: classpath:mapper/**/**Dao.xml
-  type-aliases-package: cn.ylw.entity
-  configuration:
-    jdbc-type-for-null: null

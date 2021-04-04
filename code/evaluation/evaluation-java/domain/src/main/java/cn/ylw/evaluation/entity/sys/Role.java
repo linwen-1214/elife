@@ -3,6 +3,7 @@ package cn.ylw.evaluation.entity.sys;
 import java.io.Serializable;
 import java.util.Date;
 
+import cn.ylw.evaluation.enums.StatusEnum;
 import lombok.Data;
 
 /**
@@ -37,7 +38,7 @@ public class Role implements Serializable {
     /**
      * 角色状态 0 停用 1 启用
      */
-    private Short status;
+    private StatusEnum status;
 
     /**
      * 角色描述

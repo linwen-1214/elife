@@ -2,6 +2,8 @@ package cn.ylw.evaluation.entity.sys;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import cn.ylw.evaluation.enums.StatusEnum;
 import lombok.Data;
 
 /**
@@ -19,7 +21,7 @@ public class Account implements Serializable {
     /**
      * 账号所属组织机构Id
      */
-    private String orgId;
+    private Organization organization;
 
     /**
      * 登录账号
@@ -54,7 +56,7 @@ public class Account implements Serializable {
     /**
      * 账号状态 0 停用 1 启用
      */
-    private Short status;
+    private StatusEnum status;
 
     /**
      * 账号创建时间

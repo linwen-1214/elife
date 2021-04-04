@@ -1,6 +1,8 @@
 package cn.ylw.evaluation.entity.sys;
 
 import java.io.Serializable;
+
+import cn.ylw.evaluation.enums.StatusEnum;
 import lombok.Data;
 
 /**
@@ -29,7 +31,7 @@ public class Menu implements Serializable {
     /**
      * 菜单状态 0 停用 1 启用
      */
-    private Short status;
+    private StatusEnum status;
 
     /**
      * 上级菜单Id

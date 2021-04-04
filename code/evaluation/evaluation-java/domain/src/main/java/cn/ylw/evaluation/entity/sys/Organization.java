@@ -1,6 +1,8 @@
 package cn.ylw.evaluation.entity.sys;
 
 import java.io.Serializable;
+
+import cn.ylw.evaluation.enums.StatusEnum;
 import lombok.Data;
 
 /**
@@ -32,6 +34,10 @@ public class Organization implements Serializable {
      * 上级机构Id
      */
     private String parentId;
+    /**
+     * 组织机构状态 0 停用 1 启用
+     */
+    private StatusEnum status;
 
     /**
      * 地区/地址

@@ -1,0 +1,7 @@
+mybatis:
+  mapper-locations: classpath:mapper/**/**Dao.xml
+  type-aliases-package: cn.ylw.entity
+  configuration:
+    jdbc-type-for-null: null
+mybatis-plus:
+  config-location: classpath:mapper/mybatis-config.xml

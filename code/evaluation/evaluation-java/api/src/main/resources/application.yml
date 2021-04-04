@@ -6,4 +6,4 @@ logging:
 #加载其他配置文件
 spring:
   profiles:
-    active: database,shiro
+    active: database,shiro,mybatis

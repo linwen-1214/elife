@@ -20,6 +20,11 @@ public class ResponseResult implements Serializable {
      */
     private int code;
     /**
+     * 具体返回错误状态信息
+     */
+    private int errorCode;
+
+    /**
      * 返回信息说明
      */
     private String msg;
@@ -33,27 +38,27 @@ public class ResponseResult implements Serializable {
     }
 
     public static ResponseResult success(String msg, Object data) {
-        return resultBuilder(ResponseStatus.OK.value(), msg, data);
+        return resultBuilder(ResponseStatus.OK.value(),ResponseStatus.OK.value(), msg, data);
     }
 
-    public static ResponseResult fail(String msg) {
-        return fail(msg, null);
+    public static ResponseResult fail(int errorCode,String msg) {
+        return fail(errorCode,msg, null);
     }
 
-    public static ResponseResult fail(String msg, Object data) {
-        return fail(ResponseStatus.SERVER_ERROR, msg, data);
+    public static ResponseResult fail(int errorCode,String msg, Object data) {
+        return fail(ResponseStatus.SERVER_ERROR,errorCode, msg, data);
     }
 
-    public static ResponseResult fail(ResponseStatus ResponseStatus, String msg) {
-        return fail(ResponseStatus, msg, null);
+    public static ResponseResult fail(ResponseStatus ResponseStatus, int errorCode, String msg) {
+        return fail(ResponseStatus, errorCode,msg, null);
     }
 
-    public static ResponseResult fail(ResponseStatus ResponseStatus, String msg, Object data) {
-        return resultBuilder(ResponseStatus.value(), msg, data);
+    public static ResponseResult fail(ResponseStatus ResponseStatus, int errorCode, String msg, Object data) {
+        return resultBuilder(ResponseStatus.value(),errorCode, msg, data);
     }
 
-    private static ResponseResult resultBuilder(int code, String msg, Object data) {
-        return ResponseResult.builder().code(code).msg(msg).data(data).build();
+    private static ResponseResult resultBuilder(int code,int errorCode, String msg, Object data) {
+        return ResponseResult.builder().code(code).errorCode(errorCode).msg(msg).data(data).build();
     }
 
 }

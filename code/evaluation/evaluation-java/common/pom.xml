@@ -14,8 +14,14 @@
     <properties>
         <hutool.version>5.6.2</hutool.version>
         <jwt.version>0.9.1</jwt.version>
+        <fastjson.version>1.2.75</fastjson.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
         <!-- hutool工具类-->
         <dependency>
             <groupId>cn.hutool</groupId>

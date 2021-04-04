@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration  PUBLIC "-//mybatis.org//DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--类型处理器-->
+    <typeHandlers>
+        <!--状态类型处理器-->
+        <typeHandler handler="cn.ylw.evaluation.handler.StatusTypeHandler" javaType="cn.ylw.evaluation.enums.StatusEnum" jdbcType="DECIMAL" />
+    </typeHandlers>
+</configuration>
