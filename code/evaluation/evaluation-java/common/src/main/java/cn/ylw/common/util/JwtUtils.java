@@ -3,10 +3,7 @@ package cn.ylw.common.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
@@ -18,7 +15,6 @@ import java.util.Date;
 @Slf4j
 
 public class JwtUtils {
-
     /**
      * 生成jwt token
      */
@@ -56,7 +52,7 @@ public class JwtUtils {
     public static boolean isTokenExpired(String token,String encryptKey) {
         Claims claim = getClaimByToken(token,encryptKey);
         if (claim != null) {
-            return claim.getExpiration().before(new Date());
+            return claim.getExpiration().after(new Date());
         }
         return false;
     }

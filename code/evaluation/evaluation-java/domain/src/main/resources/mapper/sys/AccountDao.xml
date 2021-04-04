@@ -2,46 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.ylw.evaluation.dao.sys.AccountDao">
     <resultMap id="BaseResultMap" type="cn.ylw.evaluation.entity.sys.Account">
-        <id column="SYS_ACCOUNT_ID" jdbcType="VARCHAR" property="id"/>
-        <result column="SYS_ACCOUNT_LOGIN_ACCOUNT" jdbcType="VARCHAR" property="loginAccount"/>
-        <result column="SYS_ACCOUNT_NAME" jdbcType="VARCHAR" property="name"/>
-        <result column="SYS_ACCOUNT_AVATAR" jdbcType="VARCHAR" property="avatar"/>
-        <result column="SYS_ACCOUNT_EMAIL" jdbcType="VARCHAR" property="email"/>
-        <result column="SYS_ACCOUNT_PASSWORD" jdbcType="VARCHAR" property="password"/>
-        <result column="SYS_ACCOUNT_PHONE" jdbcType="VARCHAR" property="phone"/>
-        <result column="SYS_ACCOUNT_STATUS" jdbcType="DECIMAL" property="status"/>
-        <result column="SYS_ACCOUNT_CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
-        <result column="SYS_ACCOUNT_CREATE_ACCOUNT_ID" jdbcType="VARCHAR" property="createAccountId"/>
-        <result column="SYS_ACCOUNT_CREATE_ACCOUNT_NAME" jdbcType="VARCHAR" property="createAccountName"/>
-        <association column="SYS_ACCOUNT_ORG_ID" jdbcType="VARCHAR" property="organization"
+        <id column="ACCOUNT_ID" jdbcType="VARCHAR" property="id"/>
+        <result column="ACCOUNT_LOGIN_ACCOUNT" jdbcType="VARCHAR" property="loginAccount"/>
+        <result column="ACCOUNT_NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="ACCOUNT_AVATAR" jdbcType="VARCHAR" property="avatar"/>
+        <result column="ACCOUNT_EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="ACCOUNT_PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="ACCOUNT_PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="ACCOUNT_STATUS" jdbcType="DECIMAL" property="status"/>
+        <result column="ACCOUNT_CREATE_DATE" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="ACCOUNT_CREATE_ACCOUNT_ID" jdbcType="VARCHAR" property="createAccountId"/>
+        <result column="ACCOUNT_CREATE_ACCOUNT_NAME" jdbcType="VARCHAR" property="createAccountName"/>
+        <association column="ACCOUNT_ORG_ID" jdbcType="VARCHAR" property="organization"
                      javaType="cn.ylw.evaluation.entity.sys.Organization"
                      select="cn.ylw.evaluation.dao.sys.OrganizationDao.findById"/>
     </resultMap>
 
     <sql id="BaseColumnSql">
-        SYS_ACCOUNT.ID as SYS_ACCOUNT_ID, SYS_ACCOUNT.ORG_ID as SYS_ACCOUNT_ORG_ID, SYS_ACCOUNT.LOGIN_ACCOUNT as SYS_ACCOUNT_LOGIN_ACCOUNT,
-        SYS_ACCOUNT.NAME as SYS_ACCOUNT_NAME, SYS_ACCOUNT.AVATAR as SYS_ACCOUNT_AVATAR,
-        SYS_ACCOUNT.EMAIL as SYS_ACCOUNT_EMAIL, SYS_ACCOUNT.PASSWORD as SYS_ACCOUNT_PASSWORD,
-        SYS_ACCOUNT.PHONE as SYS_ACCOUNT_PHONE, SYS_ACCOUNT.STATUS as SYS_ACCOUNT_STATUS,
-        SYS_ACCOUNT.CREATE_DATE as SYS_ACCOUNT_CREATE_DATE, SYS_ACCOUNT.CREATE_ACCOUNT_ID as SYS_ACCOUNT_CREATE_ACCOUNT_ID,
-        SYS_ACCOUNT.CREATE_ACCOUNT_NAME as SYS_ACCOUNT_CREATE_ACCOUNT_NAME
+        SYS_ACCOUNT.ID as ACCOUNT_ID, SYS_ACCOUNT.ORG_ID as ACCOUNT_ORG_ID, SYS_ACCOUNT.LOGIN_ACCOUNT as ACCOUNT_LOGIN_ACCOUNT,
+        SYS_ACCOUNT.NAME as ACCOUNT_NAME, SYS_ACCOUNT.AVATAR as ACCOUNT_AVATAR,
+        SYS_ACCOUNT.EMAIL as ACCOUNT_EMAIL, SYS_ACCOUNT.PASSWORD as ACCOUNT_PASSWORD,
+        SYS_ACCOUNT.PHONE as ACCOUNT_PHONE, SYS_ACCOUNT.STATUS as ACCOUNT_STATUS,
+        SYS_ACCOUNT.CREATE_DATE as ACCOUNT_CREATE_DATE, SYS_ACCOUNT.CREATE_ACCOUNT_ID as ACCOUNT_CREATE_ACCOUNT_ID,
+        SYS_ACCOUNT.CREATE_ACCOUNT_NAME as ACCOUNT_CREATE_ACCOUNT_NAME
     </sql>
 
     <select id="findById" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="BaseColumnSql"/>
-        from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
+        select <include refid="BaseColumnSql"/> from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
     </select>
-
     <select id="existsById" parameterType="java.lang.String" resultType="boolean">
-        select count(*)
-        from SYS_ACCOUNT SYS_ACCOUNT
-        where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
+        select count(*)  from SYS_ACCOUNT SYS_ACCOUNT  where SYS_ACCOUNT.ID = #{id,jdbcType=VARCHAR}
     </select>
-    <select id="findByLoginAccount" resultType="cn.ylw.evaluation.entity.sys.Account">
-        select
-        <include refid="BaseColumnSql"/>
-        from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.LOGIN_ACCOUNT = #{loginAccount,jdbcType=VARCHAR}
+    <select id="findByLoginAccount" resultMap="BaseResultMap">
+        select <include refid="BaseColumnSql"/> from SYS_ACCOUNT SYS_ACCOUNT where SYS_ACCOUNT.LOGIN_ACCOUNT = #{loginAccount,jdbcType=VARCHAR}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.String">

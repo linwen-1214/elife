@@ -5,12 +5,16 @@ import cn.ylw.evaluation.api.util.IpUtils;
 import cn.ylw.evaluation.config.shiro.token.JwtToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -27,22 +31,27 @@ import java.net.URLEncoder;
  * @description:
  */
 @Slf4j
-public class ShiroJwtAuthFilter extends BasicHttpAuthenticationFilter {
+public class JwtAuthFilter extends AuthenticatingFilter {
+
     /**
      * 如果带有 token，则对 token 进行检查，否则直接通过
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        return super.isAccessAllowed(request, response, mappedValue);
+    }
+
+    @Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+//        try {
         //判断请求的请求头是否带上 "token"
         if (isLoginAttempt(request, response)) {
-            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
-            try {
-                return executeLogin(request, response);
-            } catch (Exception e) {
-                //token 错误
-                responseError(response, e.getMessage());
-            }
+            return executeLogin(request, response);
         }
+//        } catch (Exception e) {
+//            log.error("Shiro error", e);
+//            responseError(response);
+//        }
         //如果请求头不存在 token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
         return true;
     }
@@ -50,41 +59,33 @@ public class ShiroJwtAuthFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
         // 获取 token
-        HttpServletRequest servletRequest = (HttpServletRequest) request;
+        HttpServletRequest servletRequest = WebUtils.toHttp(request);
         String jwtToken = servletRequest.getHeader(ShiroConstants.SHIRO_WEB_TOKEN_KEY);
         if (StringUtils.isBlank(jwtToken)) {
             return null;
         }
         return new JwtToken(jwtToken, IpUtils.getIpAddress(servletRequest));
     }
-//
-//    /**
-//     * isAccessAllowed()方法返回false，会进入该方法，表示拒绝访问
-//     */
-//    @Override
-//    protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
-//        String token = getAuthzHeader(servletRequest);
-//        if (StringUtils.isBlank(token)) {
-//            return true;
-//        } else {
-//            // 判断是否已过期
-//            if (jwtUtils.isTokenExpired(token)) {
-//                throw new ExpiredCredentialsException("登录状态已失效,请重新登录!");
-//            }
-//        }
-//        // 执行自动登录
-//        return executeLogin(servletRequest, servletResponse);
-//    }
-
 
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request, ServletResponse response) throws Exception {
+        log.debug(" ===onLoginSuccess ");
         return super.onLoginSuccess(token, subject, request, response);
     }
 
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request, ServletResponse response) {
-        return super.onLoginFailure(token, e, request, response);
+//        HttpServletResponse httpResponse = (HttpServletResponse) response;
+//        try {
+//            //处理登录失败的异常
+//            Throwable throwable = e.getCause() == null ? e : e.getCause();
+//
+//            httpResponse.getWriter().print(ResponseResult.fail(throwable.getMessage()));
+//        } catch (IOException e1) {
+//        }
+//       return false;
+//        throw new ShiroException(e);
+        return false;
     }
 
     /**
@@ -109,27 +110,25 @@ public class ShiroJwtAuthFilter extends BasicHttpAuthenticationFilter {
      * 判断用户是否想要登入。
      * 检测 header 里面是否包含 token 字段
      */
-    @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         return this.getAuthzHeader(request) != null;
     }
 
-    @Override
     protected String getAuthzHeader(ServletRequest servletRequest) {
         return WebUtils.toHttp(servletRequest).getHeader(ShiroConstants.SHIRO_WEB_TOKEN_KEY);
     }
 
     /**
-     * 将非法请求跳转到 /unauthorized/**
+     * 将Shiro异常信息重定向到/shiroException/进行异常抛出
      */
-    private void responseError(ServletResponse response, String message) {
-        try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            //设置编码，否则中文字符在重定向时会变为空字符串
-            message = URLEncoder.encode(message, "UTF-8");
-            httpServletResponse.sendRedirect("/unauthorized/" + message);
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
+    private void responseError(ServletResponse response) {
+//        try {
+//            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+////            //设置编码，否则中文字符在重定向时会变为空字符串
+////            message = URLEncoder.encode(message, "UTF-8");
+//            httpServletResponse.sendRedirect("/shiroException/");
+//        } catch (IOException e) {
+//            log.error(e.getMessage(), e);
+//        }
     }
 }

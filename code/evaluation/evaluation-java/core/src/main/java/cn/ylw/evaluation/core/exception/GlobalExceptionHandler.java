@@ -4,11 +4,8 @@ import cn.ylw.common.lang.ResponseResult;
 import cn.ylw.common.lang.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.io.IOException;
 
 /**
  * 全局异常处理

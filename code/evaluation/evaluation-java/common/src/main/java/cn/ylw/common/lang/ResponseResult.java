@@ -32,7 +32,9 @@ public class ResponseResult implements Serializable {
      * 返回数据结果
      */
     private Object data;
-
+    public static ResponseResult success() {
+        return success(null, null);
+    }
     public static ResponseResult success(Object data) {
         return success(null, data);
     }

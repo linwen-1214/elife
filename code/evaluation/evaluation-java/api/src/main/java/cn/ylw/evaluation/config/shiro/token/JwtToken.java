@@ -1,13 +1,14 @@
 package cn.ylw.evaluation.config.shiro.token;
 
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.HostAuthenticationToken;
 
 /**
  * @author: ylw
  * @date: 2021年04月01日 16时38分
  * @description:
  */
-public class JwtToken implements AuthenticationToken {
+public class JwtToken implements HostAuthenticationToken {
     private String token;
     private String host;
 
@@ -35,12 +36,13 @@ public class JwtToken implements AuthenticationToken {
         return token;
     }
 
-    public String getHost() {
-        return host;
-    }
-
     @Override
     public String toString() {
         return token + ":" + host;
+    }
+
+    @Override
+    public String getHost() {
+        return this.host;
     }
 }

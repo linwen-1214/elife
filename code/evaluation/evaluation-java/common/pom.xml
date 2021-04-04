@@ -14,6 +14,7 @@
     <properties>
         <hutool.version>5.6.2</hutool.version>
         <jwt.version>0.9.1</jwt.version>
+        <jwt.auth0.version>3.14.0</jwt.auth0.version>
         <fastjson.version>1.2.75</fastjson.version>
     </properties>
     <dependencies>
@@ -30,6 +31,11 @@
         </dependency>
 
         <!-- jwt -->
+     <!--   <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>${jwt.auth0.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

@@ -10,6 +10,10 @@ import cn.ylw.common.lang.ResponseStatus;
  */
 public enum LoginException implements ExceptionMessage {
     /**
+     * Shiro 认证异常
+     */
+    SHIRO_LOGIN_ERROR(ResponseStatus.UNAUTHORIZED, 10000, "系统登录异常"),
+    /**
      * 账号不存在
      */
     NOT_EXISTS_ACCOUNT(ResponseStatus.UNAUTHORIZED, 10001, "账号不存在"),

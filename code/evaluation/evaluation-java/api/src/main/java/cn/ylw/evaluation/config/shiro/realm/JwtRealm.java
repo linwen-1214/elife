@@ -1,12 +1,10 @@
 package cn.ylw.evaluation.config.shiro.realm;
 
-import cn.ylw.evaluation.core.util.ShiroPasswordUtils;
+import cn.ylw.common.constant.JwtConstants;
 import cn.ylw.evaluation.config.shiro.token.JwtToken;
 import cn.ylw.common.util.JwtUtils;
-import cn.ylw.evaluation.core.metadata.JwtMetadataConfig;
 import cn.ylw.evaluation.entity.sys.Account;
 import cn.ylw.evaluation.service.sys.AccountService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -15,7 +13,6 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -24,12 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @description:
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AccountRealm extends AuthorizingRealm {
+public class JwtRealm extends AuthorizingRealm {
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private JwtMetadataConfig jwtMetadataConfig;
 
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -45,7 +39,8 @@ public class AccountRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         JwtToken jwt = (JwtToken) authenticationToken;
         log.info("jwt----------------->{}", jwt);
-        String accountId = JwtUtils.getClaimByToken((String) jwt.getPrincipal(), jwtMetadataConfig.getEncryptKey()).getSubject();
+        String loginAccount = JwtUtils.getClaimByToken((String) jwt.getPrincipal(), JwtConstants.KEY).getSubject();
+        Account account = accountService.findByLoginAccount(loginAccount);
 //        Account user = accountService.findById(Long.parseLong(userId));
 //        if(user == null) {
 //            throw new UnknownAccountException("账户不存在！");
@@ -57,8 +52,7 @@ public class AccountRealm extends AuthorizingRealm {
 //        BeanUtil.copyProperties(user, profile);
 //        log.info("profile----------------->{}", profile.toString());
 //        return new SimpleAuthenticationInfo(profile, jwt.getCredentials(), getName());
-        Account account = new Account();
-        account.setLoginAccount(accountId);
-        return new SimpleAuthenticationInfo(account, ShiroPasswordUtils.encrypt("account.getPassword()", accountId), ByteSource.Util.bytes(account.getLoginAccount()), getName());
+
+        return new SimpleAuthenticationInfo(account, jwt.getCredentials(), getName());
     }
 }

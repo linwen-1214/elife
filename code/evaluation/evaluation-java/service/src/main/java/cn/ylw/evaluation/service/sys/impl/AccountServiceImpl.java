@@ -13,6 +13,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
 /**
  * @author: ylw
@@ -24,24 +25,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AccountServiceImpl implements AccountService {
     private final AccountDao accountDao;
-
-    @Override
-    public Account verifyLogin(String loginAccount, String password) {
-        Account account = this.findByLoginAccount(loginAccount);
-        if(ObjectUtils.isEmpty(account)){
-            throw new OperationException(LoginException.NOT_EXISTS_ACCOUNT);
-        }
-        if(StatusEnum.NOT_ENABLE.equals(account.getStatus())){
-            throw new OperationException(LoginException.NOT_ENABLE_ACCOUNT);
-        }
-        if(StatusEnum.NOT_ENABLE.equals(account.getOrganization().getStatus())){
-            throw new OperationException(LoginException.NOT_ENABLE_ACCOUNT_ORGANIZATION);
-        }
-        if (!StringUtils.equals(ShiroPasswordUtils.encrypt(password,account.getLoginAccount()),account.getLoginAccount())) {
-            throw new OperationException(LoginException.NOT_ENABLE_ACCOUNT_ORGANIZATION);
-        }
-        return account;
-    }
 
     @Override
     public Account findByLoginAccount(String loginAccount) {

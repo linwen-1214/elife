@@ -1,9 +1,14 @@
 package cn.ylw.evaluation.config.shiro;
 
 import cn.ylw.common.constant.ShiroConstants;
-import cn.ylw.evaluation.config.shiro.realm.AccountRealm;
-import cn.ylw.evaluation.config.shiro.filter.ShiroJwtAuthFilter;
+import cn.ylw.evaluation.config.shiro.matcher.JwtCredentialsMatcher;
+import cn.ylw.evaluation.config.shiro.realm.AccountLoginRealm;
+import cn.ylw.evaluation.config.shiro.realm.JwtRealm;
+import cn.ylw.evaluation.config.shiro.filter.JwtAuthFilter;
+import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
@@ -16,10 +21,14 @@ import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,19 +43,26 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+    public RedisManager redisManager() {
+        return new RedisManager();
+    }
+
     @Bean
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         // 去掉shiro登录时url里的JSESSIONID
         sessionManager.setSessionIdUrlRewritingEnabled(false);
+//        sessionManager.setSessionDAO(redisSessionDAO);
         return sessionManager;
     }
+
     /**
      * Shiro 加密凭证设置
+     *
      * @return
      */
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
         // 设置哈希算法名称
         matcher.setHashAlgorithmName(ShiroConstants.SHIRO_HASH_ALGORITHM);
@@ -58,16 +74,45 @@ public class ShiroConfig {
     }
 
     @Bean
-    public AccountRealm accountRealm(){
-        AccountRealm accountRealm=new AccountRealm();
-        accountRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return accountRealm;
+    public JwtCredentialsMatcher jwtCredentialsMatcher() {
+        return new JwtCredentialsMatcher();
+    }
+
+    /**
+     * 初始化Authenticator
+     */
+    @Bean
+    public Authenticator authenticator() {
+        ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
+        //设置两个Realm，一个用于用户登录验证和访问权限获取；一个用于jwt token的认证
+        authenticator.setRealms(Arrays.asList(jwtRealm(), accountLoginRealm()));
+        //设置多个realm认证策略，一个成功即跳过其它的
+        authenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
+        return authenticator;
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(AccountRealm accountRealm, SessionManager sessionManager) {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(accountRealm);
+    public JwtRealm jwtRealm() {
+        JwtRealm jwtRealm = new JwtRealm();
+        jwtRealm.setCredentialsMatcher(jwtCredentialsMatcher());
+        return jwtRealm;
+    }
+
+    @Bean
+    public AccountLoginRealm accountLoginRealm() {
+        AccountLoginRealm accountLoginRealm = new AccountLoginRealm();
+        accountLoginRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return accountLoginRealm;
+    }
+
+
+    @Bean
+    public DefaultWebSecurityManager securityManager(JwtRealm jwtRealm, SessionManager sessionManager ) {
+
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(jwtRealm);
         securityManager.setSessionManager(sessionManager);
+//        securityManager.setCacheManager(redisCacheManager);
+        securityManager.setAuthenticator(authenticator());
         /*
          * 关闭shiro自带的session，详情见文档
          */
@@ -97,23 +142,30 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(securityManager);
         Map<String, Filter> filters = new HashMap<>();
-        filters.put("jwt", getShiroJwtFilter());
+        filters.put("authcToken", shiroJwtAuthFilter());
         shiroFilter.setFilters(filters);
+
         Map<String, String> filterMap = shiroFilterChainDefinition.getFilterChainMap();
         // 所有请求通过我们自己的JWT Filter
-        filterMap.put("/**", "jwt");
+        filterMap.put("/**", "authcToken");
         // 放行不需要权限认证的接口
         //放行登录接口和其他不需要权限的接口
-        filterMap.put("/login", "anon");
-        filterMap.put("/unauthorized/**", "anon");
+        //login不做认证，noSessionCreation的作用是用户在操作session时会抛异常
+        filterMap.put("/login", "noSessionCreation,anon");
+        //做用户认证，permissive参数的作用是当token无效时也允许请求访问，不会返回鉴权未通过的错误
+        filterMap.put("/logout", "noSessionCreation,authcToken[permissive]");
+
+        filterMap.put("/shiroException/**", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
     }
 
-    @Bean
-    public ShiroJwtAuthFilter getShiroJwtFilter(){
-        return new ShiroJwtAuthFilter();
+    public JwtAuthFilter shiroJwtAuthFilter() {
+        return new JwtAuthFilter();
     }
+//    protected AnyRolesAuthorizationFilter createRolesFilter(){
+//        return new AnyRolesAuthorizationFilter();
+//    }
 
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
@@ -139,6 +191,7 @@ public class ShiroConfig {
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
     }
+
     @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
