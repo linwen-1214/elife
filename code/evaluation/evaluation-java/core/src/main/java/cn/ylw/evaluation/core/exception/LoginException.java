@@ -12,7 +12,7 @@ public enum LoginException implements ExceptionMessage {
     /**
      * Shiro 认证异常
      */
-    SHIRO_LOGIN_ERROR(ResponseStatus.UNAUTHORIZED, 10000, "系统登录异常"),
+    SHIRO_LOGIN_ERROR(ResponseStatus.UNAUTHORIZED, 10000, "登录授权已过期"),
     /**
      * 账号不存在
      */

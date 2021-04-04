@@ -9,50 +9,46 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>core</artifactId>
+    <packaging>jar</packaging>
     <properties>
         <shiro-spring-boot.version>1.7.1</shiro-spring-boot.version>
-        <shiro-redis-boot.version>3.3.1</shiro-redis-boot.version>
+        <shiro-redis-boot.version>3.2.1</shiro-redis-boot.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>${shiro-spring-boot.version}</version>
-        </dependency>
-        <!--        <dependency>-->
-        <!--            &lt;!&ndash;session持久化插件&ndash;&gt;-->
-        <!--            <groupId>org.crazycake</groupId>-->
-        <!--            <artifactId>shiro-redis</artifactId>-->
-        <!--            <version>${shiro-redis-boot.version}</version>-->
-        <!--            <exclusions>-->
-        <!--                <exclusion>-->
-        <!--                    <groupId>org.apache.shiro</groupId>-->
-        <!--                    <artifactId>shiro-core</artifactId>-->
-        <!--                </exclusion>-->
-        <!--            </exclusions>-->
-        <!--        </dependency>-->
-        <dependency>
-            <groupId>org.crazycake</groupId>
-            <artifactId>shiro-redis-spring-boot-starter</artifactId>
-            <version>${shiro-redis-boot.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.shiro</groupId>
-                    <artifactId>shiro-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>cn.ylw</groupId>
             <artifactId>common</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>net.sf.ehcache</groupId>-->
+<!--            <artifactId>ehcache</artifactId>-->
+<!--            <version>2.10.6</version>-->
+<!--        </dependency>-->
+<!-- -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.shiro</groupId>-->
+<!--            <artifactId>shiro-spring-boot-starter</artifactId>-->
+<!--            <version>${shiro-spring-boot.version}</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis-spring-boot-starter</artifactId>
+            <version>${shiro-redis-boot.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

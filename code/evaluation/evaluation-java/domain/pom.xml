@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>domain</artifactId>
-
+    <packaging>jar</packaging>
     <properties>
         <ojdbc8.version>19.3.0.0</ojdbc8.version>
         <orai18n.version>12.1.0.2.0</orai18n.version>

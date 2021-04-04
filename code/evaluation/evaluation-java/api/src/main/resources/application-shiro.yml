@@ -1,8 +1,4 @@
-spring:
-  redis:
-    host: 127.0.0.1
-    port: 6379
 shiro-redis:
   enabled: true
   redis-manager:
-    host: 127.0.0.1:6379
+    host: test.biteway.cn:6379

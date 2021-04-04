@@ -1,19 +1,23 @@
 package cn.ylw.evaluation.config.shiro;
 
 import cn.ylw.common.constant.ShiroConstants;
+import cn.ylw.evaluation.config.shiro.filter.JwtAuthFilter;
 import cn.ylw.evaluation.config.shiro.matcher.JwtCredentialsMatcher;
 import cn.ylw.evaluation.config.shiro.realm.AccountLoginRealm;
 import cn.ylw.evaluation.config.shiro.realm.JwtRealm;
-import cn.ylw.evaluation.config.shiro.filter.JwtAuthFilter;
 import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheException;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.mgt.SessionStorageEvaluator;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -22,10 +26,14 @@ import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 
 import javax.servlet.Filter;
 import java.util.Arrays;
@@ -43,39 +51,34 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    public RedisManager redisManager() {
-        return new RedisManager();
-    }
-
+//    @Bean
+//    public EhCacheManager getEhCacheManager(){
+//        EhCacheManager cacheManager = new EhCacheManager();
+//        cacheManager.setCacheManagerConfigFile("classpath:cache/ehcache-shiro.xml");
+//        return cacheManager;
+//    }
     @Bean
-    public SessionManager sessionManager() {
+    public SessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(redisSessionDAO);
         // 去掉shiro登录时url里的JSESSIONID
         sessionManager.setSessionIdUrlRewritingEnabled(false);
-//        sessionManager.setSessionDAO(redisSessionDAO);
         return sessionManager;
     }
 
-    /**
-     * Shiro 加密凭证设置
-     *
-     * @return
-     */
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
-        // 设置哈希算法名称
-        matcher.setHashAlgorithmName(ShiroConstants.SHIRO_HASH_ALGORITHM);
-        // 设置哈希迭代次数
-        matcher.setHashIterations(ShiroConstants.SHIRO_HASH_ITERATIONS);
-        // 设置存储凭证十六进制编码
-        matcher.setStoredCredentialsHexEncoded(true);
-        return matcher;
-    }
-
-    @Bean
-    public JwtCredentialsMatcher jwtCredentialsMatcher() {
-        return new JwtCredentialsMatcher();
+    public DefaultWebSecurityManager securityManager(JwtRealm jwtRealm, SessionManager sessionManager, RedisCacheManager redisCacheManager) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(jwtRealm);
+        securityManager.setSessionManager(sessionManager);
+        securityManager.setAuthenticator(authenticator());
+        securityManager.setCacheManager(redisCacheManager);
+        /*
+         * 关闭shiro自带的session，详情见文档
+         */
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator());
+        securityManager.setSubjectDAO(subjectDAO);
+        return securityManager;
     }
 
     /**
@@ -94,6 +97,10 @@ public class ShiroConfig {
     @Bean
     public JwtRealm jwtRealm() {
         JwtRealm jwtRealm = new JwtRealm();
+        // 启用身份认证缓存
+        jwtRealm.setAuthenticationCachingEnabled(true);
+        // 启用授权认证缓存
+        jwtRealm.setAuthorizationCachingEnabled(true);
         jwtRealm.setCredentialsMatcher(jwtCredentialsMatcher());
         return jwtRealm;
     }
@@ -103,23 +110,6 @@ public class ShiroConfig {
         AccountLoginRealm accountLoginRealm = new AccountLoginRealm();
         accountLoginRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return accountLoginRealm;
-    }
-
-
-    @Bean
-    public DefaultWebSecurityManager securityManager(JwtRealm jwtRealm, SessionManager sessionManager ) {
-
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager(jwtRealm);
-        securityManager.setSessionManager(sessionManager);
-//        securityManager.setCacheManager(redisCacheManager);
-        securityManager.setAuthenticator(authenticator());
-        /*
-         * 关闭shiro自带的session，详情见文档
-         */
-        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
-        subjectDAO.setSessionStorageEvaluator(sessionStorageEvaluator());
-        securityManager.setSubjectDAO(subjectDAO);
-        return securityManager;
     }
 
     @Bean
@@ -175,11 +165,11 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-//    @Bean
-//    public static DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-//        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
-//        return creator;
-//    }
+    @Bean
+    public static DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
+        return creator;
+    }
 
     /**
      * 禁用session, 不保存用户登录状态。保证每次请求都重新认证
@@ -190,6 +180,28 @@ public class ShiroConfig {
         DefaultSessionStorageEvaluator sessionStorageEvaluator = new DefaultSessionStorageEvaluator();
         sessionStorageEvaluator.setSessionStorageEnabled(false);
         return sessionStorageEvaluator;
+    }
+
+    /**
+     * Shiro 加密凭证设置
+     *
+     * @return
+     */
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        // 设置哈希算法名称
+        matcher.setHashAlgorithmName(ShiroConstants.SHIRO_HASH_ALGORITHM);
+        // 设置哈希迭代次数
+        matcher.setHashIterations(ShiroConstants.SHIRO_HASH_ITERATIONS);
+        // 设置存储凭证十六进制编码
+        matcher.setStoredCredentialsHexEncoded(true);
+        return matcher;
+    }
+
+    @Bean
+    public JwtCredentialsMatcher jwtCredentialsMatcher() {
+        return new JwtCredentialsMatcher();
     }
 
     @Bean

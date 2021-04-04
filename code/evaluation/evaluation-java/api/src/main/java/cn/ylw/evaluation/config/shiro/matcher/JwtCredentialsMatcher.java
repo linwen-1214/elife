@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.subject.PrincipalCollection;
 
 /**
  * @author: ylw
@@ -19,12 +20,12 @@ public class JwtCredentialsMatcher implements CredentialsMatcher {
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {
         String token = (String) authenticationToken.getCredentials();
-        Object stored = authenticationInfo.getCredentials();
-        String salt = stored.toString();
-        Account user = (Account) authenticationInfo.getPrincipals().getPrimaryPrincipal();
+        PrincipalCollection principals = authenticationInfo.getPrincipals();
+        Object primaryPrincipal = principals.getPrimaryPrincipal();
+        // 集成redis 后 使用 spring-boot-devtools插件 将会导致类型装换错误
+        Account account = (Account) primaryPrincipal;
         try {
-            boolean tokenExpired = JwtUtils.isTokenExpired(token, JwtConstants.KEY);
-            return tokenExpired;
+            return JwtUtils.isTokenExpired(token, JwtConstants.KEY);
 //            Algorithm algorithm = Algorithm.HMAC256(salt);
 //            JWTVerifier verifier = JWT.require(algorithm)
 //                    .withClaim("username", user.getUsername())

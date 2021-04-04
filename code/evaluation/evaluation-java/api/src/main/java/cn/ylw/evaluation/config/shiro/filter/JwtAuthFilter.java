@@ -1,27 +1,27 @@
 package cn.ylw.evaluation.config.shiro.filter;
 
 import cn.ylw.common.constant.ShiroConstants;
+import cn.ylw.common.lang.ResponseResult;
 import cn.ylw.evaluation.api.util.IpUtils;
 import cn.ylw.evaluation.config.shiro.token.JwtToken;
+import cn.ylw.evaluation.core.exception.LoginException;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.io.PrintWriter;
 
 /**
  * Jwt过滤器
@@ -31,7 +31,7 @@ import java.net.URLEncoder;
  * @description:
  */
 @Slf4j
-public class JwtAuthFilter extends AuthenticatingFilter {
+public class JwtAuthFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 如果带有 token，则对 token 进行检查，否则直接通过
@@ -43,17 +43,34 @@ public class JwtAuthFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-//        try {
+
         //判断请求的请求头是否带上 "token"
         if (isLoginAttempt(request, response)) {
             return executeLogin(request, response);
         }
-//        } catch (Exception e) {
-//            log.error("Shiro error", e);
-//            responseError(response);
-//        }
+
         //如果请求头不存在 token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
         return true;
+    }
+
+    @Override
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+        AuthenticationToken token = this.createToken(request, response);
+        if (token == null) {
+            String msg = "createToken method implementation returned null. A valid non-null AuthenticationToken must be created in order to execute a login attempt.";
+            throw new IllegalStateException(msg);
+        } else {
+            try {
+                Subject subject = this.getSubject(request, response);
+                subject.login(token);
+                return this.onLoginSuccess(token, subject, request, response);
+            } catch (AuthenticationException e) {
+                log.error("Shiro error", e);
+                responseError(response);
+                this.onLoginFailure(token, e, request, response);
+                return false;
+            }
+        }
     }
 
     @Override
@@ -110,10 +127,12 @@ public class JwtAuthFilter extends AuthenticatingFilter {
      * 判断用户是否想要登入。
      * 检测 header 里面是否包含 token 字段
      */
+    @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         return this.getAuthzHeader(request) != null;
     }
 
+    @Override
     protected String getAuthzHeader(ServletRequest servletRequest) {
         return WebUtils.toHttp(servletRequest).getHeader(ShiroConstants.SHIRO_WEB_TOKEN_KEY);
     }
@@ -122,13 +141,16 @@ public class JwtAuthFilter extends AuthenticatingFilter {
      * 将Shiro异常信息重定向到/shiroException/进行异常抛出
      */
     private void responseError(ServletResponse response) {
-//        try {
-//            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-////            //设置编码，否则中文字符在重定向时会变为空字符串
-////            message = URLEncoder.encode(message, "UTF-8");
-//            httpServletResponse.sendRedirect("/shiroException/");
-//        } catch (IOException e) {
-//            log.error(e.getMessage(), e);
-//        }
+        HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
+        httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("application/json; charset=utf-8");
+        try (PrintWriter out = httpServletResponse.getWriter()) {
+            LoginException shiroLoginError = LoginException.SHIRO_LOGIN_ERROR;
+            out.append(JSONObject.toJSONString(ResponseResult.fail(shiroLoginError.getStatus(), shiroLoginError.getCode(), shiroLoginError.getExMessage())));
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        }
     }
 }
