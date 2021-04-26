@@ -7,8 +7,22 @@
 <body>
 <script type="text/javascript">
     var a = 0;
-    console.log("9" < 9)
+    console.log(a);
+    afun(a);
+    function afun(a){
+        a = 3;
+        console.log(a);
+    }
+    console.log(a);
 
+    var o ={name:'张三'}
+    console.log(o);
+    ofun(o);
+    function ofun(o){
+        o.name ='李四';
+        console.log(o);
+    }
+    console.log(o);
 </script>
 </body>
 </html>

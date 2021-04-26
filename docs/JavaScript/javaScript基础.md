@@ -127,7 +127,10 @@
 
 ## 2.6 数据类型
 
-### 2.6.1 值类型
+### 2.6.1 值类型（基本数据类型）
+
+> - 基本数据类型的值是无法修改的，是不可变的。
+> - 基本数据类型的比较是值的比较，也就是只要两个变量的值相等，我们就认为这两个变量相等。
 
 - **String(字符串)**
 
@@ -178,6 +181,10 @@
   - Symbol 是 ES6 引入了一种新的原始数据类型，表示独一无二的值
 
 ### 2.6.2 引用数据类型
+
+> - 引用类型的值是保存在内存中的对象。
+> - 当一个变量是一个对象时，实际上变量中保存的并不是对象本身，而是对象的引用。
+> - 当一个变量向另一个变量复制引用类型的值时，会将对象的引用复制到变量中，并不是创建一个新的对象。这时，两个变量指向的是同一个对象。因此，改变其中一个变量会影响另一个。
 
 - **Object(对象)**
 - **Array(数组)**
@@ -344,231 +351,231 @@ void运算符的作用是执行一个表达式，然后返回undefined。
   </tr>
   <tr>
    <td>21</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Grouping"><code>圆括号</code></a></td>
+   <td><a href="#"><code>圆括号</code></a></td>
    <td>n/a（不相关）</td>
    <td><code>( … )</code></td>
   </tr>
   <tr>
    <td rowspan="5">20</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Property_Accessors#%e7%82%b9%e7%ac%a6%e5%8f%b7%e8%a1%a8%e7%a4%ba%e6%b3%95"><code>成员访问</code></a></td>
+   <td><a href="#"><code>成员访问</code></a></td>
    <td>从左到右</td>
    <td><code>… . …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Property_Accessors#%e6%8b%ac%e5%8f%b7%e8%a1%a8%e7%a4%ba%e6%b3%95"><code>需计算的成员访问</code></a></td>
+   <td><a href="#"><code>需计算的成员访问</code></a></td>
    <td>从左到右</td>
    <td><code>… [ … ]</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/new"><code>new</code></a> (带参数列表)</td>
+   <td><a href="#"><code>new</code></a> (带参数列表)</td>
    <td>n/a</td>
    <td><code>new … ( … )</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Guide/Functions" title="JavaScript/Reference/Operators/Special_Operators/function_call">函数调用</a></td>
+   <td><a href="#">函数调用</a></td>
    <td>从左到右</td>
    <td><code>… (&nbsp;<var>…&nbsp;</var>)</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Optional_chaining">可选链（Optional chaining）</a></td>
+   <td><a href="#">可选链（Optional chaining）</a></td>
    <td>从左到右</td>
    <td><code>?.</code></td>
   </tr>
   <tr>
    <td rowspan="1">19</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/new" title="JavaScript/Reference/Operators/Special_Operators/new_Operator">new</a>&nbsp;(无参数列表)</td>
+   <td><a href="#">new</a>&nbsp;(无参数列表)</td>
    <td>从右到左</td>
    <td><code>new …</code></td>
   </tr>
   <tr>
    <td rowspan="2">18</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Increment" title="JavaScript/Reference/Operators/Arithmetic_Operators">后置递增</a>(运算符在后)</td>
+   <td><a href="#">后置递增</a>(运算符在后)</td>
    <td colspan="1" rowspan="2">n/a<br>
     &nbsp;</td>
    <td><code>… ++</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Decrement" title="JavaScript/Reference/Operators/Arithmetic_Operators">后置递减</a>(运算符在后)</td>
+   <td><a href="#">后置递减</a>(运算符在后)</td>
    <td><code>… --</code></td>
   </tr>
   <tr>
    <td colspan="1" rowspan="10">17</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_NOT">逻辑非</a></td>
+   <td><a href="#">逻辑非</a></td>
    <td colspan="1" rowspan="10">从右到左</td>
    <td><code>! …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT" title="JavaScript/Reference/Operators/Bitwise_Operators">按位非</a></td>
+   <td><a href="#">按位非</a></td>
    <td><code>~ …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Unary_plus" title="JavaScript/Reference/Operators/Arithmetic_Operators">一元加法</a></td>
+   <td><a href="#">一元加法</a></td>
    <td><code>+ …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Unary_negation" title="JavaScript/Reference/Operators/Arithmetic_Operators">一元减法</a></td>
+   <td><a href="#">一元减法</a></td>
    <td><code>- …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Increment" title="JavaScript/Reference/Operators/Arithmetic_Operators">前置递增</a></td>
+   <td><a href="#">前置递增</a></td>
    <td><code>++ …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Decrement" title="JavaScript/Reference/Operators/Arithmetic_Operators">前置递减</a></td>
+   <td><a href="#">前置递减</a></td>
    <td><code>-- …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof" title="JavaScript/Reference/Operators/Special_Operators/typeof_Operator">typeof</a></td>
+   <td><a href="#">typeof</a></td>
    <td><code>typeof …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/void" title="JavaScript/Reference/Operators/Special_Operators/void_Operator">void</a></td>
+   <td><a href="#">void</a></td>
    <td><code>void …</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/delete" title="JavaScript/Reference/Operators/Special_Operators/delete_Operator">delete</a></td>
+   <td><a href="#">delete</a></td>
    <td><code>delete …</code></td>
   </tr>
   <tr>
-   <td><a href="/en-US/docs/Web/JavaScript/Reference/Operators/await">await</a></td>
+   <td><a href="#">await</a></td>
    <td><code>await …</code></td>
   </tr>
   <tr>
    <td>16</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation" title="JavaScript/Reference/Operators/Arithmetic_Operators">幂</a></td>
+   <td><a href="#">幂</a></td>
    <td>从右到左</td>
    <td><code>…&nbsp;**&nbsp;…</code></td>
   </tr>
   <tr>
    <td rowspan="3">15</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Multiplication" title="JavaScript/Reference/Operators/Arithmetic_Operators">乘法</a></td>
+   <td><a href="#">乘法</a></td>
    <td colspan="1" rowspan="3">从左到右<br>
     &nbsp;</td>
    <td><code>… *&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Division" title="JavaScript/Reference/Operators/Arithmetic_Operators">除法</a></td>
+   <td><a href="#">除法</a></td>
    <td><code>… /&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Remainder" title="JavaScript/Reference/Operators/Arithmetic_Operators">取模</a></td>
+   <td><a href="#">取模</a></td>
    <td><code>… %&nbsp;…</code></td>
   </tr>
   <tr>
    <td rowspan="2">14</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Addition" title="JavaScript/Reference/Operators/Arithmetic_Operators">加法</a></td>
+   <td><a href="#">加法</a></td>
    <td colspan="1" rowspan="2">从左到右<br>
     &nbsp;</td>
    <td><code>… +&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Subtraction" title="JavaScript/Reference/Operators/Arithmetic_Operators">减法</a></td>
+   <td><a href="#">减法</a></td>
    <td><code>… -&nbsp;…</code></td>
   </tr>
   <tr>
    <td rowspan="3">13</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" title="JavaScript/Reference/Operators/Bitwise_Operators">按位左移</a></td>
+   <td><a href="#">按位左移</a></td>
    <td colspan="1" rowspan="3">从左到右</td>
    <td><code>… &lt;&lt;&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" title="JavaScript/Reference/Operators/Bitwise_Operators">按位右移</a></td>
+   <td><a href="#">按位右移</a></td>
    <td><code>… &gt;&gt;&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" title="JavaScript/Reference/Operators/Bitwise_Operators">无符号右移</a></td>
+   <td><a href="#">无符号右移</a></td>
    <td><code>… &gt;&gt;&gt;&nbsp;…</code></td>
   </tr>
   <tr>
    <td rowspan="6">12</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Less_than_operator" title="JavaScript/Reference/Operators/Comparison_Operators">小于</a></td>
+   <td><a href="#">小于</a></td>
    <td colspan="1" rowspan="6">从左到右</td>
    <td><code>… &lt;&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Less_than__or_equal_operator" title="JavaScript/Reference/Operators/Comparison_Operators">小于等于</a></td>
+   <td><a href="#">小于等于</a></td>
    <td><code>… &lt;=&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Greater_than_operator" title="JavaScript/Reference/Operators/Comparison_Operators">大于</a></td>
+   <td><a href="#">大于</a></td>
    <td><code>… &gt;&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Greater_than_or_equal_operator" title="JavaScript/Reference/Operators/Comparison_Operators">大于等于</a></td>
+   <td><a href="#">大于等于</a></td>
    <td><code>… &gt;=&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/in" title="JavaScript/Reference/Operators/Special_Operators/in_Operator">in</a></td>
+   <td><a href="#">in</a></td>
    <td><code>… in&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof" title="JavaScript/Reference/Operators/Special_Operators/instanceof_Operator">instanceof</a></td>
+   <td><a href="#">instanceof</a></td>
    <td><code>… instanceof&nbsp;…</code></td>
   </tr>
   <tr>
    <td rowspan="4">11</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Equality" title="JavaScript/Reference/Operators/Comparison_Operators">等号</a></td>
+   <td><a href="#">等号</a></td>
    <td colspan="1" rowspan="4">从左到右<br>
     &nbsp;</td>
    <td><code>… ==&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Inequality" title="JavaScript/Reference/Operators/Comparison_Operators">非等号</a></td>
+   <td><a href="#">非等号</a></td>
    <td><code>… !=&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Identity" title="JavaScript/Reference/Operators/Comparison_Operators">全等号</a></td>
+   <td><a href="#">全等号</a></td>
    <td><code>… ===&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comparison_Operators#Nonidentity" title="JavaScript/Reference/Operators/Comparison_Operators">非全等号</a></td>
+   <td><a href="#">非全等号</a></td>
    <td><code>… !==&nbsp;…</code></td>
   </tr>
   <tr>
    <td>10</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_AND" title="JavaScript/Reference/Operators/Bitwise_Operators">按位与</a></td>
+   <td><a href="#">按位与</a></td>
    <td>从左到右</td>
    <td><code>… &amp;&nbsp;…</code></td>
   </tr>
   <tr>
    <td>9</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_XOR" title="JavaScript/Reference/Operators/Bitwise_Operators">按位异或</a></td>
+   <td><a href="#">按位异或</a></td>
    <td>从左到右</td>
    <td><code>… ^&nbsp;…</code></td>
   </tr>
   <tr>
    <td>8</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_OR" title="JavaScript/Reference/Operators/Bitwise_Operators">按位或</a></td>
+   <td><a href="#">按位或</a></td>
    <td>从左到右</td>
    <td><code>… |&nbsp;…</code></td>
   </tr>
   <tr>
    <td>7</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_AND" title="JavaScript/Reference/Operators/Logical_Operators">逻辑与</a></td>
+   <td><a href="#">逻辑与</a></td>
    <td>从左到右</td>
    <td><code>… &amp;&amp;&nbsp;…</code></td>
   </tr>
   <tr>
    <td>6</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_OR" title="JavaScript/Reference/Operators/Logical_Operators">逻辑或</a></td>
+   <td><a href="#">逻辑或</a></td>
    <td>从左到右</td>
    <td><code>… ||&nbsp;…</code></td>
   </tr>
   <tr>
    <td>5</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator" title="JavaScript/Reference/Operators/Nullish_coalescing_operator">空值合并</a></td>
+   <td><a href="#">空值合并</a></td>
    <td>从左到右</td>
    <td><code>… ?? …</code></td>
   </tr>
   <tr>
    <td>4</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" title="JavaScript/Reference/Operators/Special_Operators/Conditional_Operator">条件运算符</a></td>
+   <td><a href="#">条件运算符</a></td>
    <td>从右到左</td>
    <td><code>… ? … : …</code></td>
   </tr>
   <tr>
    <td rowspan="16">3</td>
-   <td rowspan="16"><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Assignment_Operators" title="JavaScript/Reference/Operators/Assignment_Operators">赋值</a></td>
+   <td rowspan="16"><a href="#">赋值</a></td>
    <td rowspan="16">从右到左</td>
    <td><code>… =&nbsp;…</code></td>
   </tr>
@@ -619,28 +626,286 @@ void运算符的作用是执行一个表达式，然后返回undefined。
   </tr>
   <tr>
    <td colspan="1" rowspan="2">2</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/yield" title="JavaScript/Reference/Operators/yield">yield</a></td>
+   <td><a href="#">yield</a></td>
    <td colspan="1" rowspan="2">从右到左</td>
    <td><code>yield&nbsp;…</code></td>
   </tr>
   <tr>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/yield*" title="JavaScript/Reference/Operators/yield">yield*</a></td>
+   <td><a href="#">yield*</a></td>
    <td><code>yield*&nbsp;…</code></td>
   </tr>
   <tr>
    <td>1</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_operator" title="JavaScript/Reference/Operators/Spread_operator">展开运算符</a></td>
+   <td><a href="#">展开运算符</a></td>
    <td>n/a</td>
    <td><code>...</code>&nbsp;…</td>
   </tr>
   <tr>
    <td>0</td>
-   <td><a href="/zh-CN/docs/Web/JavaScript/Reference/Operators/Comma_Operator" title="JavaScript/Reference/Operators/Comma_Operator">逗号</a></td>
+   <td><a href="#">逗号</a></td>
    <td>从左到右</td>
    <td><code>… ,&nbsp;…</code></td>
   </tr>
  </tbody>
 </table>
+## 2.8 语句(statement)
 
-  
+  >语句是一个程序的基本单位，JavaScript的程序就是由一条一条语句构成的，每一条语句使用;结尾。
+  >
+  >JavaScript的语句默认是由上至下顺序执行，但是我们也可以通过一些流程控制语句来控制语句的执行顺序。
 
+### 2.8.1 代码块
+
+> 代码块是在大括号{}中所写的语句，以此将多条语句的集合视为一条语句来使用。
+>
+> 我们一般使用代码块将需要一起执行的语句进行分组，需要注意的是，代码块结尾不需要加分号。
+
+### 2.8.2 条件语句
+
+> 条件语句是通过判断指定表达式的值来决定执行还是跳过某些语句。
+>
+> 最基本的条件语句：
+>
+> 	- if...else
+> 	- switch...case
+
+#### 2.8.2.1 if...else语句
+
+- 形式1：
+
+  ```javascript
+  if(expression){
+      statement
+  }
+  ```
+
+- 形式2：
+
+  ```
+  if(expression){
+  	statement
+  }else{
+  	statement
+  }
+  ```
+
+- 形式3：
+
+  ```
+  if(expression){
+  	statement
+  }else if(expression){
+  	statement
+  }else{
+  	statement
+  }
+  ```
+
+#### 2.8.2.2 switch...case语句
+
+> - switch 语句更适用于多条分支使用同一语句的情况。
+>
+> - 语法:
+>
+> ```
+> switch(statement){
+> 	case 表达式1:
+> 		statement;
+> 	case 表达式2:
+> 		statement;
+> 	default:
+> 		statement;
+> }
+> ```
+>
+> - 需要注意的是case语句只是标识程序运行的起点，并不是终点，所以一旦符合case的条件程序会一直运行到结束。所以我们一般会在case中添加break作为语句的结束。
+
+### 2.8.3 循环语句
+
+> - 循环中的语句只要满足一定的条件将会一直执行。
+
+#### 2.8.3.1 while
+
+> - while语句是一个最基本的循环语句，也被成为while循环。
+>
+> - 语法:
+>
+>   ```
+>   while(expression){
+>   	statement;
+>   }
+>   ```
+>
+> - 和if一样while中的条件表达式将会被转换为布尔类型，只要该值为真，则代码块将会一直重复执行。
+>
+> - 代码块没执行一次，条件表达式将会重新计算。
+
+#### 2.8.3.2 do...while
+
+> - do...while和while非常类似，只不过它会在循环的尾部而不是顶部检查表达式的值。
+>
+> - do...while循环会至少执行一次，及do语句内的代码块一定会执行。
+>
+> - 语法:
+>
+>   ```
+>   do{
+>   	statement;
+>   }while(expression){
+>   	statement;
+>   }
+>   ```
+>
+> - 相比于while,do...while的使用情况并不是很多。
+
+#### 2.8.3.3 for
+
+> - for语句也是循环控制，我们也称它为 for循环。
+>
+> - 大部分循环都会有一个计数器用以控制执行的次， 计数器的三个关键操作是初始化、检测和更新。 for语句就将这三步操作明确为了语法的一部分。
+>
+> -  语法：
+>
+>   ```
+>   for(初始表达式;条件表达式;更新表达式){
+>   	statement;
+>   }
+>   ```
+
+#### 2.8.3.4 break和continue
+
+>- break和continue语句用于在循环中精确地控制代码的执行。
+>- 使用break语句会使程序立即退出最近的循环，前置执行循环后边的语句。
+>- break和continue语句只在循环和switch语句中使用。
+>- 使用continue语句会使程序跳过当次循环，继续执行下一次循环，并不会结束整个循环。
+>- continue只能在循环中使用，不能出现在其他的结构中。
+
+#### 2.8.3.5 lable
+
+> - 使用label语句可以在代码中添加标签，以便将来使用。
+>
+> - 语法:
+>
+>   ```
+>   start: for(var i =0;i<count;i++){
+>   	statement;
+>   }
+>   ```
+>
+> - 这个例子中定义的 start标签可以在将来由 break 或 continue  语句引用。加标签的语句一般都要 与 for语句等循环配合使用。
+
+# 3.对象
+
+## 3.1 Object对象
+
+>- Object类型,我们也称为一个对象。是JavaScript中的引用数据类型。
+>- 它是一种复合值，它将很多值聚合在一起，可以通过名字访问这些值。
+>- 对象也可以看做是属性的无序集合，每一个属性都是一个名/值对。
+>- 对象除了可以创建自有属性，还可以通过一个名为原型的对象哪里继承属性。
+>- 除了字符串、数字、true、false、null、undefined之外，JavaScript中的值都是对象。
+
+### 3.1.1 创建Object对象
+
+>- 第一种方式
+>
+>```
+>var person =new Object();
+>```
+>
+>- 第二种方式
+>
+>```
+>var person={
+>	key:value
+>}
+>```
+
+### 3.1.2 Object对象属性的访问
+
+> ```
+> var person ={
+> 	name:'张三'
+> }
+> ```
+>
+> - 第一种方式 通过 . 访问
+>
+> ```
+> person.name
+> ```
+>
+> - 第二种方式 通过 [] 访问
+>
+> ```
+> person[name]
+> ```
+
+## 3.2 数组(Array)
+
+> - 数组是一种用于表达有顺序关系的值的几个的语言结构。
+> - 数组内的各个值被称作元素。每一个元素都可以通过索引(下标)来快速读取。索引是可以从零开始的整数。
+
+### 3.2.1 数组的创建
+
+> - 第一种方式 常规方式
+>
+> ```
+> var arr = new Array();
+> arr[0] = 'a';
+> arr[1] = 'b';
+> ```
+>
+> - 第二种方式 简洁方式
+>
+> ```
+> var arr=new Array('a','b');
+> ```
+>
+> - 第三种方式 字面
+>
+> ```
+> var arr = ['a','b'];
+> ```
+
+## 3.3 函数(Function)
+
+> - 函数是由一连串的子程序(语句的集合)所组成的，可以被外部程序调用。向函数传递参数之后，函数可以返回一定的值。
+> - 通常情况下，JavaScript代码是自上而下执行的，不过函数体内部的代码则不是这样。如果只是对函数进行了声明，其中的代码并不会执行。只有在调用函数时才会执行函数体内部的代码。
+
+### 3.3.1 函数的声明
+
+> - 函数的需要使用`function`关键字进行声明。
+> - 方式1：
+>
+> ```
+> var sum = function(a,b){
+> 	return a+b;
+> }
+> ```
+>
+> - 方式2:
+>
+> ```
+> function sum(a,b){
+> 	return a+b;
+> }
+> ```
+>
+> - 上面两种方式都创建了一个函数，方式一是将函数对象赋值给了`sum`这个遍历，方式二是创建了一个函数名为`sum`。其中()中的内容表示执行函数时需要的形参(形式参数)。{}中的内容表示函数的主体，主体中的return 表示这个函数需要返回一个值，如果不需要返回可以不要写return
+
+### 3.3.2 函数的调用
+
+> - 调用函数时，传递给函数的参数被称为实参(实际参数)。
+> - 调用方式:  返回值 =  函数名(参数，参数,...);
+
+### 3.3.3 传递参数
+
+> JavaScript 中所有的参数传递都是按值传递的。也就是说把函数外部的值赋值给函数内部的参数，就和把值从一个变量复制给另一个变量是一样的。
+
+## 3.4 栈和堆
+
+> - JavaScript在运行时数据是保存到栈内存和堆内存中。
+> - 简单来说栈内存用来保存变量和基本类型。堆内存用来保存对象。
+> - 在声明一个变量时，实际上就是在栈内存中创建了一个空间用来保存变量。
+> - 如果是基本类型则在栈内存中直接保存。
+> - 如果是引用类型，则会在堆内存中保存，变量中保存的实际上是对象在堆内存中的地址。
