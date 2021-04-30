@@ -8,5 +8,9 @@ public class Main {
 
         String strLen = "ss";
         System.out.println(strLen.trim());
+
+        String li ="sdfasdf";
     }
 }
+
+
